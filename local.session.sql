@@ -1,0 +1,1 @@
+create DATABASE 'c1024l1';
