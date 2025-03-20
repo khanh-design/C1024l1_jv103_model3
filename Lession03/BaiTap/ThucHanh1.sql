@@ -53,3 +53,8 @@ insert into Subject values (2, 'C', 6, 1);
 insert into Subject values (3, 'HDJ', 5, 1);
 insert into Subject values (4, 'RDBMS', 10, 1);
 
+-- add data from record Marrk
+insert into Mark values (1, 1, 1, 8, 1);
+insert into Mark values (2, 1, 2, 10, 2);
+insert into Mark values (3, 2, 1, 12, 1);
+
