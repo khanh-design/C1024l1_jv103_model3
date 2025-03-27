@@ -121,3 +121,56 @@ END //
 DELIMITER ;
 
 CALL sp_update_product_by_id( 1, 'Laptop Pro 16', 'LAP-001', 1300.00, 20, 'Laptop cao cấp 16 inch', 'Còn hàng');
+
+
+-- delete products 
+-- Tạo bảng lưu trữ lịch sử xóa sản phẩm
+CREATE TABLE Products_Archive (
+    id int,
+    productCode varchar(30) not null,
+    productName varchar(200) not null,
+    productPrice decimal(10, 2) not null,
+    productAmount int not null,
+    productDescription varchar(200),
+    productStatus varchar(200),
+    deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_by VARCHAR(100) DEFAULT 'system'
+);
+
+-- Tạo procedure để xóa sản phẩm theo ID
+DELIMITER //
+CREATE PROCEDURE sp_delete_product_by_id(IN p_id INT)
+BEGIN
+    -- Xóa sản phẩm (trigger sẽ tự động lưu vào bảng archive)
+    DELETE FROM Products WHERE id = p_id;
+    
+    -- Trả về số dòng bị ảnh hưởng
+    SELECT ROW_COUNT() AS rows_affected;
+END //
+DELIMITER ;
+
+-- Tạo BEFORE DELETE trigger để lưu vào bảng archive
+DELIMITER //
+CREATE TRIGGER trg_before_product_delete
+BEFORE DELETE ON Products
+FOR EACH ROW
+BEGIN
+    -- Lưu bản ghi sắp bị xóa vào bảng archive
+    INSERT INTO Products_Archive (
+        id, productCode, productName, productPrice, 
+        productAmount, productDescription, productStatus
+    ) VALUES (
+        OLD.id, OLD.productCode, OLD.productName, OLD.productPrice,
+        OLD.productAmount, OLD.productDescription, OLD.productStatus
+    );
+END //
+DELIMITER ;
+
+-- Kiểm tra trigger bằng cách gọi procedure xóa
+CALL sp_delete_product_by_id(1);
+
+-- Kiểm tra bảng archive
+SELECT * FROM Products_Archive;
+
+-- Kiểm tra bảng Products (sản phẩm ID 1 đã bị xóa)
+SELECT * FROM Products;
