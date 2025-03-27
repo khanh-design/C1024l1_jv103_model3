@@ -39,3 +39,85 @@ explain select * from Products where ProductCode = 'PHN-002';
 EXPLAIN SELECT * FROM Products WHERE productName LIKE 'Laptop%' AND productPrice > 1000;
 -- Sau khi quét toàn bộ bảng
 EXPLAIN SELECT * FROM Products WHERE productName = 'Laptop Pro 15' AND productPrice = 1200.00;
+
+
+-- 2. Tạo view
+create view v_Products as
+select p.productCode, p.productName, p.productPrice, p.productStatus
+from Products p;
+
+
+-- update view
+alter view v_Products as
+select p.productCode, p.productName, p.productPrice, p.productStatus
+from Products p
+where p.productPrice > 50.00;
+
+-- xóa view 
+drop view if exists v_Products;
+
+select * from v_Products;
+
+
+-- 3. Store procedure 
+DELIMITER //
+-- DROP PROCEDURE IF EXISTS sp_product_status//
+CREATE PROCEDURE sp_product_status()
+BEGIN
+    SELECT p.productCode, p.productName, p.productPrice, p.productAmount, p.productStatus
+    FROM products p;
+END //
+DELIMITER ;
+
+-- add product
+DELIMITER //
+-- DROP PROCEDURE IF EXISTS sp_add_product//
+CREATE PROCEDURE sp_add_product(
+    IN p_name VARCHAR(200),
+    IN p_code VARCHAR(30),
+    IN p_price DECIMAL(10,2),
+    IN p_amount INT,
+    IN p_desc VARCHAR(200),
+    IN p_status VARCHAR(200)
+)
+BEGIN 
+    INSERT INTO Products 
+    SET productName = p_name,
+        productCode = p_code,
+        productPrice = p_price,
+        productAmount = p_amount,
+        productDescription = p_desc,
+        productStatus = p_status;
+END //
+DELIMITER ;
+CALL sp_add_product('Huawei', 'HR01', 34.00, 10, 'may tinh cao cap', 'con hang');
+
+
+-- update product id
+DELIMITER //
+CREATE PROCEDURE sp_update_product_by_id(
+    IN p_id INT,
+    IN p_productName VARCHAR(200),
+    IN p_productCode VARCHAR(30),
+    IN p_productPrice DECIMAL(10,2),
+    IN p_productAmount INT,
+    IN p_productDescription VARCHAR(200),
+    IN p_productStatus VARCHAR(200)
+)
+BEGIN
+    UPDATE Products
+    SET 
+        productName = p_productName,
+        productCode = p_productCode,
+        productPrice = p_productPrice,
+        productAmount = p_productAmount,
+        productDescription = p_productDescription,
+        productStatus = p_productStatus
+    WHERE id = p_id;
+    
+    -- Trả về số dòng bị ảnh hưởng
+    SELECT ROW_COUNT() AS rows_affected;
+END //
+DELIMITER ;
+
+CALL sp_update_product_by_id( 1, 'Laptop Pro 16', 'LAP-001', 1300.00, 20, 'Laptop cao cấp 16 inch', 'Còn hàng');
