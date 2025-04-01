@@ -49,4 +49,51 @@ body {
     list-style-type: none;
 }
 
-/* Hover */
+.index li a {
+    text-decoration: none;
+    margin: 5px;
+}
+
+.index li a:hover {
+    color: aqua;
+    transform: matrix(0.3, 0.3, 0.3);
+}
+
+.chapter {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border: 1px solid #f5f5f5;
+    background-color: aliceblue;
+    padding-left: 20px;
+    border-radius: 10px;
+}
+
+.chapter .text {
+    text-align: end;
+    padding-right: 35px;
+}
+
+.chapter h2 {
+    color: rgb(22, 106, 106);
+}
+
+.chapter p {
+    margin-top: 10px;
+    padding-bottom: 10x;
+}
+
+.chapter .back-to-top {
+    display: flex;
+    justify-content: end;
+    padding-right: 35px;
+}
+
+.chapter .back-to-top a {
+    text-decoration: none;
+}
+
+.chapter .back-to-top a:hover {
+    color: aqua;
+    transition: width 2s linear 1s;
+}
+
