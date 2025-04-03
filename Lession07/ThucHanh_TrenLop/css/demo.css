@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+}
+
+#header {
+    background-color: aqua;
+    height: 150px;
+    width: 100%;
+}
+
+#main {
+    background-color: aquamarine;
+    height: 300px;
+    width: 70%;
+    float: left;
+}
+
+#sidebar {
+    background-color: red;
+    height: 300px;
+    width: 30%;
+    float: left;
+}
+
+#footer {
+    background-color: blue;
+    height: 150px;
+    width: 100%;
+    clear: both;
+}
