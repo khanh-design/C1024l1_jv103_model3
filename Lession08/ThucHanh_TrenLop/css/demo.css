@@ -1,0 +1,47 @@
+#header {
+    background-color: brown;
+    height: 150px;
+}
+
+#content {
+    background-color: lightblue;
+    height: 500px;
+}
+
+#content .product {
+    background-color: lightgray;
+    height: 200px;
+    width: 200px;
+    margin: 15px;
+    float: left;
+}
+
+#sidebar {
+    background-color: lightgreen;
+    height: 500px;
+}
+
+#footer {
+    background-color: lightyellow;
+    height: 100px;
+}
+
+@media screen and (max-width: 767px) {
+    #content .product {
+        height: 120px;
+        width: 120px;
+        margin: 10px;
+    }
+
+    #content h1 {
+        visibility: hidden;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    
+}
+
+@media screen and (max-width: 1199px) {
+    
+}
